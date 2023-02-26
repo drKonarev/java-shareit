@@ -18,6 +18,7 @@ public interface ItemRepository {
 
     void addUser(long userId);
 
+    Item getItem (long itemId);
     List<Item> search(String string);
 
     void deleteUser(long userId);

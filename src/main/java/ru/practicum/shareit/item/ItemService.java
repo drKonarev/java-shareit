@@ -14,7 +14,7 @@ public interface ItemService {
 
     ItemDto patch(Long userId, ItemDto itemDto, long itemId);
 
-    ItemDto getItem(long userId, long itemId);
+    ItemDto getItem(long itemId);
 
     List<ItemDto> search(String text);
 

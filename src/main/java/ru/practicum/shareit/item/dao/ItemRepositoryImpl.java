@@ -69,10 +69,20 @@ public class ItemRepositoryImpl implements ItemRepository {
         throw new UserNotFoundException("Не найден пользователь!");
     }
 
+
     @Override
     public void addUser(long userId) {
         storage.put(userId, Collections.emptyList());
         log.info("Добавлен пользователь под айДи: " + userId);
+    }
+
+    @Override
+    public Item getItem(long itemId) {
+        if (storage.values().stream().flatMap(Collection::stream).anyMatch(item -> item.getId() == itemId)) {
+            return storage.values().stream().flatMap(Collection::stream)
+                    .filter(item -> item.getId() == itemId).findAny().get();
+        } else throw new PostNotFoundException("Пост не найден!");
+
     }
 
     @Override

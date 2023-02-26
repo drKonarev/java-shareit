@@ -36,7 +36,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto addNewItem(Long userId, ItemDto itemDto) {
-        // if (!itemDto.isAvailiable) throw new MyValidationException ("Предмет не может быть недоступен изначально!")
         Item savedItem = itemRepository.save(mapper.toItem(itemDto, userRepository.getById(userId)));
         return mapper.toDto(savedItem, userId, savedItem.getId());
     }
@@ -56,8 +55,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto getItem(long userId, long itemId) {
-        return mapper.toDto(itemRepository.findItem(userId, itemId), userId, itemId);
+    public ItemDto getItem(long itemId) {
+        return mapper.toDto(itemRepository.getItem(itemId), itemRepository.getItem(itemId).getOwner().getId(), itemId);
+        //return mapper.toDto(itemRepository.findItem(userId, itemId), userId, itemId);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ItemServiceImpl implements ItemService {
 
 
     private void validateAccess(long userId, long itemId) {
-        if (getItem(userId, itemId) == null) {
+        if (itemRepository.findItem(userId, itemId) == null) {
             throw new UserNotFoundException("Ошибка доступа!");
         }
     }
