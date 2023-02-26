@@ -79,21 +79,16 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Override
     public Item getItem(long itemId) {
         if (storage.values().stream().flatMap(Collection::stream).anyMatch(item -> item.getId() == itemId)) {
-            return storage.values().stream().flatMap(Collection::stream)
-                    .filter(item -> item.getId() == itemId).findAny().get();
+            return storage.values().stream().flatMap(Collection::stream).filter(item -> item.getId() == itemId).findAny().get();
         } else throw new PostNotFoundException("Пост не найден!");
 
     }
 
     @Override
     public List<Item> search(String string) {
-        List<Item> items = storage.values().stream()
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+        List<Item> items = storage.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
         log.info("Отправлен запрос на поиск по ключевому слову: " + string);
-        return items.stream()
-                .filter(item -> (item.getDescription() + item.getName()).toLowerCase().contains(string) && item.isAvailable())
-                .collect(Collectors.toList());
+        return items.stream().filter(item -> (item.getDescription() + item.getName()).toLowerCase().contains(string) && item.isAvailable()).collect(Collectors.toList());
 
     }
 
@@ -104,12 +99,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     private long getId() {
-        long lastId = storage.values()
-                .stream()
-                .flatMap(Collection::stream)
-                .mapToLong(Item::getId)
-                .max()
-                .orElse(0);
+        long lastId = storage.values().stream().flatMap(Collection::stream).mapToLong(Item::getId).max().orElse(0);
         return lastId + 1;
     }
 }
