@@ -28,13 +28,12 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<ItemDto> search(@RequestHeader("X-Sharer-User-Id") long userId,
-                                @RequestParam ("text") String text) {
+    public List<ItemDto> search(@RequestParam("text") String text) {
         return itemService.search(text.toLowerCase());
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto getItem(@PathVariable long itemId) {
+    public ItemDto getItem(@PathVariable long itemId) { // Map <String, String> pathVarsMap ,
         return itemService.getItem(itemId);
     }
 

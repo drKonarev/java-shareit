@@ -10,18 +10,13 @@ public interface ItemRepository {
 
     Item save(Item item);
 
-    void deleteByUserIdAndItemId(long userId, long itemId);
+    void deleteItem(long itemId);
 
     Item patch(Item item);
 
-    Item findItem(long userId, long itemId);
-
-    void addUser(long userId);
-
-    Item getItem(long itemId);
+    Item findItem(long itemId);
 
     List<Item> search(String string);
 
-    void deleteUser(long userId);
 
 }

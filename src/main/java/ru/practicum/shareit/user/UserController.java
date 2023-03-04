@@ -3,6 +3,7 @@ package ru.practicum.shareit.user;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.markers.Create;
+import ru.practicum.shareit.markers.Update;
 import ru.practicum.shareit.user.dto.UserDto;
 
 
@@ -38,7 +39,7 @@ public class UserController {
     }
 
     @PatchMapping(path = "/{userId}")
-    public UserDto update(@PathVariable("userId") long userId, @RequestBody UserDto userDto) {
+    public UserDto update(@PathVariable("userId") long userId, @Validated({Update.class}) @RequestBody UserDto userDto) {
         userDto.setId(userId);
         return userService.patch(userDto);
     }

@@ -2,7 +2,6 @@ package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.item.dao.ItemRepository;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
@@ -15,8 +14,6 @@ import java.util.stream.Collectors;
 class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
-    private final ItemRepository itemRepository;
-
     private final UserMapper mapper;
 
     @Override
@@ -27,7 +24,6 @@ class UserServiceImpl implements UserService {
     @Override
     public UserDto saveUser(UserDto userDto) {
         User savedUser = userRepository.save(mapper.toUser(userDto));
-        itemRepository.addUser(savedUser.getId());
         return mapper.toUserDto(savedUser);
     }
 
@@ -45,7 +41,6 @@ class UserServiceImpl implements UserService {
 
     @Override
     public void delete(long id) {
-        itemRepository.deleteUser(id);
         userRepository.delete(id);
     }
 }
