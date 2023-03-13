@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 
 import javax.validation.ValidationException;
@@ -15,7 +16,7 @@ import javax.validation.ValidationException;
 @Slf4j
 public class ErrorHandler {
 
-    @ExceptionHandler({UserNotFoundException.class, PostNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, ItemNotFoundException.class, HttpClientErrorException.NotFound.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse notFound(RuntimeException ex) {
         return new ErrorResponse(ex.getMessage());
@@ -33,28 +34,35 @@ public class ErrorHandler {
         return new ErrorResponse(ex.getMessage());
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler({MethodArgumentNotValidException.class, MyValidationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse validationSpringError(MethodArgumentNotValidException ex) {
-        return new ErrorResponse("Ошибка валидации введеных данных!");
+        return new ErrorResponse(ex.getMessage());
     }
 
     @ExceptionHandler(DuplicateKeyException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse duplicateException(DuplicateKeyException ex) {
-        return new ErrorResponse("Объект с такими данными уже существует!");
+        return new ErrorResponse(ex.getMessage());//"Объект с такими данными уже существует!");
     }
 
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse nullException(NullPointerException ex) {
-        return new ErrorResponse("Один из объектов или его поле содержит null!");
+        return new ErrorResponse(ex.getMessage());//"Один из объектов или его поле содержит null!");
+    }
+
+
+    @ExceptionHandler(AccessOrAvailableException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse accessOrAvailableException(RuntimeException ex) {
+        return new ErrorResponse(ex.getMessage());
     }
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse internalError(Throwable ex) {
-        return new ErrorResponse("Happened something internal!");
+        return new ErrorResponse(ex.getMessage()); //"Happened something internal!");
     }
 
 

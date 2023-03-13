@@ -3,24 +3,33 @@ package ru.practicum.shareit.item.model;
 import lombok.*;
 import ru.practicum.shareit.user.model.User;
 
-/**
- * TODO Sprint add-controllers.
- */
+import javax.persistence.*;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Getter
 @Setter
+@Entity
+@Table(name = "Items")
 public class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    private  User owner;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User owner;
 
-    private long id;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    private  String name;
+    @Column(name = "description", nullable = false)
+    private String description;
 
-    private  String description;
+    @Column(name = "available", nullable = false)
+    private boolean available; // true - available
 
-    private  boolean available; // true - available
 
 }
