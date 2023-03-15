@@ -26,8 +26,8 @@ public class User {
     @Column(name = "name", nullable = false)
     @NotNull
     private String name;
-    @Column(name = "email", unique = true, nullable = false)
-    @Email
+    @Column(name = "email", unique = true,  nullable = false) //unique = true,
+    @Email (message = "Wrong email format!")
     private String email;
 
 }

@@ -24,6 +24,7 @@ import ru.practicum.shareit.user.model.User;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,9 +87,11 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDtoBooking getItem(long itemId, long userId) {
-        if (itemRepository.findById(itemId).isEmpty()) throw new ItemNotFoundException("Item not found!");
-        ItemDtoBooking booking = addBookingsAndComments(itemRepository.findById(itemId).get());
-        if (itemRepository.findById(itemId).get().getOwner().getId() == userId)
+        Optional<Item> item = itemRepository.findById(itemId);
+
+        if (item.isEmpty()) throw new ItemNotFoundException("Item not found!");
+        ItemDtoBooking booking = addBookingsAndComments(item.get());
+        if (item.get().getOwner().getId() == userId)
             return booking;
         booking.setLastBooking(null);
         booking.setNextBooking(null);

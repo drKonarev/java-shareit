@@ -24,8 +24,12 @@ class UserServiceImpl implements UserService {
 
     @Override
     public UserDto saveUser(UserDto userDto) {
-        User savedUser = userRepository.save(mapper.toUser(userDto));
-        return mapper.toUserDto(savedUser);
+        if (userRepository.findUserByEmail(userDto.getEmail()).isEmpty()) {
+            User savedUser = userRepository.save(mapper.toUser(userDto));
+            return mapper.toUserDto(savedUser);
+        }
+
+        throw new UserNotFoundException("Duplicate email!");
     }
 
     @Override
