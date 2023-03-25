@@ -8,11 +8,12 @@ import ru.practicum.shareit.item.dto.ItemDtoBooking;
 import ru.practicum.shareit.markers.Create;
 import ru.practicum.shareit.markers.Update;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
 @RestController
 @RequestMapping("/items")
 public class ItemController {
@@ -25,13 +26,17 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemDtoBooking> getAllItems(@RequestHeader("X-Sharer-User-Id") long userId) {
-        return itemService.getAllItems(userId);
+    public List<ItemDtoBooking> getAllItems(@RequestHeader("X-Sharer-User-Id") long userId,
+                                            @RequestParam(name = "from", required = false, defaultValue = "0") @Min(0) Integer from,
+                                            @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) @Max(100) Integer size) {
+        return itemService.getAllItems(userId, from, size);
     }
 
     @GetMapping("/search")
-    public List<ItemDto> search(@RequestParam("text") String text) {
-        return itemService.search(text.toLowerCase());
+    public List<ItemDto> search(@RequestParam("text") @NotBlank @NotNull String text,
+                                @RequestParam(name = "from", required = false, defaultValue = "0") @Min(0) Integer from,
+                                @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) @Max(100) Integer size) {
+        return itemService.search(text.toLowerCase(), from, size);
     }
 
     @GetMapping("/{itemId}")

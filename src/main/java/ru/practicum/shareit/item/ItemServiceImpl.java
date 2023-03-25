@@ -2,6 +2,7 @@ package ru.practicum.shareit.item;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.dto.BookingItemDto;
@@ -17,6 +18,8 @@ import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.ItemRequest;
+import ru.practicum.shareit.request.ItemRequestRepository;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.model.User;
 
@@ -37,7 +40,7 @@ public class ItemServiceImpl implements ItemService {
     private final CommentRepository commentRepository;
     private final BookingMapper bookingMapper;
     private final ItemMapper itemMapper;
-
+    private final ItemRequestRepository itemRequestRepository;
     private final CommentMapper commentMapper;
     private static final Logger log = LoggerFactory.getLogger(ItemRepository.class);
 
@@ -47,19 +50,20 @@ public class ItemServiceImpl implements ItemService {
                            CommentRepository commentRepository,
                            BookingMapper bookingMapper,
                            ItemMapper itemMapper,
-                           CommentMapper commentMapper) {
+                           ItemRequestRepository itemRequestRepository, CommentMapper commentMapper) {
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
         this.bookingRepository = bookingRepository;
         this.commentRepository = commentRepository;
         this.bookingMapper = bookingMapper;
         this.itemMapper = itemMapper;
+        this.itemRequestRepository = itemRequestRepository;
         this.commentMapper = commentMapper;
     }
 
     @Override
-    public List<ItemDtoBooking> getAllItems(long userId) {
-        List<Item> items = itemRepository.findItemByOwnerId(userId);
+    public List<ItemDtoBooking> getAllItems(long userId, Integer from, Integer size) {
+        List<Item> items = itemRepository.findItemByOwnerId(userId, PageRequest.of(from, size)).toList();
         return items.stream().sorted(Comparator.comparing(Item::getId)).map(this::addBookingsAndComments).collect(Collectors.toList());
 
     }
@@ -67,7 +71,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto addNewItem(Long userId, ItemDto itemDto) {
         checkUserExist(userId);
-        Item savedItem = itemRepository.save(itemMapper.toItem(itemDto, userRepository.getById(userId)));
+        ItemRequest itemRequest = null;
+        if (itemDto.getRequestId() != null)
+            itemRequest = itemRequestRepository.findById(itemDto.getRequestId()).get();
+        Item savedItem = itemRepository.save(itemMapper.toItem(itemDto, userRepository.getById(userId), itemRequest));
         return itemMapper.toDto(savedItem, userId, savedItem.getId());
     }
 
@@ -99,10 +106,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> search(String text) {
+    public List<ItemDto> search(String text, Integer from, Integer size) {
         if (text.isBlank()) return new ArrayList<>();
-        List<Item> list = itemRepository.searchByDescriptionAndName(text);
-
+        List<Item> list = itemRepository.searchByDescriptionAndName(text, PageRequest.of(from, size)).toList();
         return list.stream().map(item -> itemMapper.toDto(item, item.getOwner().getId(), item.getId())).collect(Collectors.toList());
     }
 

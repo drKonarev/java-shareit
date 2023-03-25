@@ -23,6 +23,6 @@ public class CommentDto {
 
     private String authorName;
 
-   @DateTimeFormat(pattern = "yyyy/MM/dd hh:mm:ss")
-   private LocalDateTime created;
+    @DateTimeFormat(pattern = "yyyy/MM/dd hh:mm:ss")
+    private LocalDateTime created;
 }

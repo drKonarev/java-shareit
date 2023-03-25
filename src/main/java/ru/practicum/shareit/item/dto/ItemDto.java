@@ -7,9 +7,6 @@ import ru.practicum.shareit.markers.Update;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-/**
- * TODO Sprint add-controllers.
- */
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -33,5 +30,7 @@ public class ItemDto {
 
     @NotNull(groups = {Update.class, Create.class})
     private long ownerId;
+
+    private Long requestId;
 
 }
