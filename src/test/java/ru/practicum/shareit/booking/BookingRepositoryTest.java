@@ -94,8 +94,8 @@ class BookingRepositoryTest {
     @Test
     void getLastBookingByItemId() {
 
-        Optional<Booking> actual = bookingRepository.getLastBookingByItemId(2L);
-
+        Optional<Booking> actual = bookingRepository.getLastBookingByItemId(2);
+        System.out.println(actual);
         assertTrue(actual.isPresent());
         assertEquals(2L, actual.get().getId());
         assertEquals(BookingStatus.APPROVED, actual.get().getStatus());
