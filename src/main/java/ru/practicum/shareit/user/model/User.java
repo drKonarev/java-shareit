@@ -7,9 +7,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 
-/**
- * TODO Sprint add-controllers.
- */
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -26,8 +23,8 @@ public class User {
     @Column(name = "name", nullable = false)
     @NotNull
     private String name;
-    @Column(name = "email", unique = true,  nullable = false) //unique = true,
-    @Email (message = "Wrong email format!")
+    @Column(name = "email", unique = true, nullable = false) //unique = true,
+    @Email(message = "Wrong email format!")
     private String email;
 
 }

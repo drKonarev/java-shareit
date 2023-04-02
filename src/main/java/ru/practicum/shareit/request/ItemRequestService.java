@@ -8,7 +8,6 @@ public interface ItemRequestService {
 
     ItemRequestDto getItemRequestById(Long itemRequestId, Long ownerId);
 
-
     ItemRequestDto save(ItemRequestDto itemRequestDto, Long ownerId);
 
     List<ItemRequestDto> getAllItemRequestsByOwnerId(Long ownerId);

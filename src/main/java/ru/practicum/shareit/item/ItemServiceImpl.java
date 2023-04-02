@@ -95,7 +95,6 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDtoBooking getItem(long itemId, long userId) {
         Optional<Item> item = itemRepository.findById(itemId);
-
         if (item.isEmpty()) throw new ItemNotFoundException("Item not found!");
         ItemDtoBooking booking = addBookingsAndComments(item.get());
         if (item.get().getOwner().getId() == userId)

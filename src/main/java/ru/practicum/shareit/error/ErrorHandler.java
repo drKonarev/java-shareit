@@ -25,8 +25,7 @@ public class ErrorHandler {
         return new ErrorResponse(ex.getMessage());
     }
 
-    @ExceptionHandler({UserAlreadyExistException.class, PostAlreadyExistException.class,
-            ConstraintViolationException.class,})
+    @ExceptionHandler({ConstraintViolationException.class,})
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse alreadyExist(RuntimeException ex) {
         return new ErrorResponse(ex.getMessage());
@@ -40,8 +39,7 @@ public class ErrorHandler {
         return new ErrorResponse(ex.getMessage());
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class, MyValidationException.class,
-            IllegalStateException.class})
+    @ExceptionHandler({MethodArgumentNotValidException.class, IllegalStateException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse validationSpringError(RuntimeException ex) {
         return new ErrorResponse(ex.getMessage());
