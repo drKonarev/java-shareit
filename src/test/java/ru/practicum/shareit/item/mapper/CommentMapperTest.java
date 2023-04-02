@@ -31,9 +31,9 @@ class CommentMapperTest {
 
     @Test
     void dtoToComment() {
-        Comment expectedComment = new Comment(1L, "opisanie", user, item, LocalDateTime.now());
-
         Comment actualComment = commentMapper.dtoToComment(commentDto, user, item);
+
+        Comment expectedComment = new Comment(1L, "opisanie", user, item, actualComment.getCreated());
 
         assertEquals(expectedComment.toString(), actualComment.toString());
     }
