@@ -62,7 +62,7 @@ class BookingRepositoryTest {
         booking1.setItem(item1);
         booking1.setBooker(user1);
         booking1.setStatus(BookingStatus.WAITING);
-        booking1.setStart(LocalDateTime.now());
+        booking1.setStart(LocalDateTime.now().minusHours(2));
         booking1.setEnd(LocalDateTime.now().plusHours(5));
 
         booking2.setItem(item2);
