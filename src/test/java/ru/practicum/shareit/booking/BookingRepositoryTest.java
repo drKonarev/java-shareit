@@ -134,7 +134,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findBookingByItem_Owner_Id_Test() {
+    void findBookingByItem_Owner_Id() {
         List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(2L, PageRequest.of(0,10)).toList();
 
         assertFalse(actualList.isEmpty());
