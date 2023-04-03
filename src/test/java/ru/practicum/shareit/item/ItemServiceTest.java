@@ -248,7 +248,7 @@ class ItemServiceTest {
 
         assertThrows(UserNotFoundException.class, () -> itemService.createComment(commentDto, 1L, 1L));
         verify(itemRepository, never()).findById(anyLong());
-        verify(bookingRepository, never()).findPastBookingByBooker_IdAndItem_Id(anyLong(), anyLong(), (LocalDateTime.now()));
+        verify(bookingRepository, never()).findPastBookingByBooker_IdAndItem_Id(anyLong(), anyLong());
         verify(commentRepository, never()).save(any());
 
 
@@ -260,7 +260,7 @@ class ItemServiceTest {
         when(itemRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThrows(ItemNotFoundException.class, () -> itemService.createComment(commentDto, 1L, 1L));
-        verify(bookingRepository, never()).findPastBookingByBooker_IdAndItem_Id(anyLong(), anyLong(), LocalDateTime.now());
+        verify(bookingRepository, never()).findPastBookingByBooker_IdAndItem_Id(anyLong(), anyLong());
         verify(commentRepository, never()).save(any());
 
     }
@@ -269,7 +269,7 @@ class ItemServiceTest {
     void createComment_whenPastBookingNotFound_thenThrowNullPointerException() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
-        when(bookingRepository.findPastBookingByBooker_IdAndItem_Id(anyLong(), anyLong(), LocalDateTime.now())).thenReturn(Collections.emptyList());
+        when(bookingRepository.findPastBookingByBooker_IdAndItem_Id(anyLong(), anyLong())).thenReturn(Collections.emptyList());
 
         assertThrows(NullPointerException.class, () -> itemService.createComment(commentDto, 1L, 1L));
         verify(commentRepository, never()).save(any());
@@ -279,7 +279,7 @@ class ItemServiceTest {
     void createComment_whenEverythingIsOk() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
-        when(bookingRepository.findPastBookingByBooker_IdAndItem_Id(anyLong(), anyLong(),LocalDateTime.now())).thenReturn(Collections.singletonList(booking));
+        when(bookingRepository.findPastBookingByBooker_IdAndItem_Id(anyLong(), anyLong())).thenReturn(Collections.singletonList(booking));
         when(commentMapper.dtoToComment(any(), any(), any())).thenReturn(comment);
         when(commentRepository.save(any())).thenReturn(comment);
         when(commentMapper.toDto(any())).thenReturn(commentDto);

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.DirtiesContext;
@@ -116,7 +117,7 @@ class BookingRepositoryTest {
     @Test
     void findPastBookingByBooker_IdAndItem_IdTest() {
         List<Booking> actualList = bookingRepository
-                .findPastBookingByBooker_IdAndItem_Id(2L, 1L, LocalDateTime.now());
+                .findPastBookingByBooker_IdAndItem_Id(2L, 1L);
 
         assertFalse(actualList.isEmpty());
         assertEquals(1, actualList.size());
@@ -125,7 +126,7 @@ class BookingRepositoryTest {
 
     @Test
     void findAllByBooker_IdOrderByStartDescTest() {
-        List<Booking> actualList = bookingRepository.findAllByBooker_IdOrderByStartDesc(1L, Pageable.unpaged()).toList();
+        List<Booking> actualList = bookingRepository.findAllByBooker_IdOrderByStartDesc(1L, Pageable.unpaged()).getContent();
 
         assertFalse(actualList.isEmpty());
         assertEquals(actualList.size(), 2);
@@ -135,7 +136,7 @@ class BookingRepositoryTest {
 
     @Test
     void findBookingByItem_Owner_IdTest() {
-        List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(2L, PageRequest.of(0,10)).toList();
+        List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(2L, PageRequest.of(0,10)).getContent();
 
         assertFalse(actualList.isEmpty());
         assertEquals(2, actualList.size());

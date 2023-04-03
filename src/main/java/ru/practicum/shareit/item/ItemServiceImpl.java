@@ -120,7 +120,7 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> {
             throw new ItemNotFoundException("Item not found");
         });
-        if (bookingRepository.findPastBookingByBooker_IdAndItem_Id(itemId, userId, LocalDateTime.now()).isEmpty()) {
+        if (bookingRepository.findPastBookingByBooker_IdAndItem_Id(itemId, userId).isEmpty()) {
             throw new NullPointerException("Not found such booking!");
         }
         Comment newComment = commentRepository.save(commentMapper.dtoToComment(comment, user, item));
