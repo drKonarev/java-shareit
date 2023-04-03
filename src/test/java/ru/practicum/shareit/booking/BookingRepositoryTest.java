@@ -114,7 +114,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findPastBookingByBooker_IdAndItem_IdTest() {
+    void findPastBookingByBooker_IdAndItem_Id() {
         List<Booking> actualList = bookingRepository
                 .findPastBookingByBooker_IdAndItem_Id(2L, 1L);
 
@@ -124,7 +124,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findAllByBooker_IdOrderByStartDescTest() {
+    void findAllByBooker_IdOrderByStartDesc() {
         List<Booking> actualList = bookingRepository.findAllByBooker_IdOrderByStartDesc(1L, Pageable.unpaged()).toList();
 
         assertFalse(actualList.isEmpty());
