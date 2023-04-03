@@ -84,12 +84,6 @@ class BookingRepositoryTest {
         em.persist(item1);
         em.persist(item2);
 
-        booking2.setItem(item2);
-        booking2.setBooker(user1);
-        booking2.setStatus(BookingStatus.APPROVED);
-        booking2.setStart(LocalDateTime.now().minusDays(1));
-        booking2.setEnd(LocalDateTime.now().minusHours(6));
-
     }
 
     @Test
@@ -98,16 +92,17 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void getLastBookingByItemId() {
+    void getLastBookingByItemIdTest() {
 
         Optional<Booking> actual = bookingRepository.getLastBookingByItemId(2);
 
+        assertTrue(actual.isPresent());
         assertEquals(2L, actual.get().getId());
         assertEquals(BookingStatus.APPROVED, actual.get().getStatus());
     }
 
     @Test
-    void getNextBookingByItemId() {
+    void getNextBookingByItemIdTest() {
 
         Optional<Booking> actual = bookingRepository.getNextBookingByItemId(2);
 
@@ -118,7 +113,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findPastBookingByBooker_IdAndItem_Id() {
+    void findPastBookingByBooker_IdAndItem_IdTest() {
         List<Booking> actualList = bookingRepository
                 .findPastBookingByBooker_IdAndItem_Id(2L, 1L);
 
@@ -129,7 +124,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findAllByBooker_IdOrderByStartDesc() {
+    void findAllByBooker_IdOrderByStartDescTest() {
         List<Booking> actualList = bookingRepository.findAllByBooker_IdOrderByStartDesc(1L, Pageable.unpaged()).toList();
 
         assertFalse(actualList.isEmpty());
@@ -139,7 +134,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findBookingByItem_Owner_Id() {
+    void findBookingByItem_Owner_IdTest() {
         List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(2L, Pageable.unpaged()).toList();
 
         assertFalse(actualList.isEmpty());
