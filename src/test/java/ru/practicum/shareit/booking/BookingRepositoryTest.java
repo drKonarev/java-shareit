@@ -84,6 +84,12 @@ class BookingRepositoryTest {
         em.persist(item1);
         em.persist(item2);
 
+        booking2.setItem(item2);
+        booking2.setBooker(user1);
+        booking2.setStatus(BookingStatus.APPROVED);
+        booking2.setStart(LocalDateTime.now().minusDays(1));
+        booking2.setEnd(LocalDateTime.now().minusHours(6));
+
     }
 
     @Test
@@ -95,8 +101,7 @@ class BookingRepositoryTest {
     void getLastBookingByItemId() {
 
         Optional<Booking> actual = bookingRepository.getLastBookingByItemId(2);
-        System.out.println(actual);
-        assertTrue(actual.isPresent());
+
         assertEquals(2L, actual.get().getId());
         assertEquals(BookingStatus.APPROVED, actual.get().getStatus());
     }
