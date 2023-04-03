@@ -24,6 +24,7 @@ import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.model.User;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -119,7 +120,7 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> {
             throw new ItemNotFoundException("Item not found");
         });
-        if (bookingRepository.findPastBookingByBooker_IdAndItem_Id(itemId, userId).isEmpty()) {
+        if (bookingRepository.findPastBookingByBooker_IdAndItem_Id(itemId, userId, LocalDateTime.now()).isEmpty()) {
             throw new NullPointerException("Not found such booking!");
         }
         Comment newComment = commentRepository.save(commentMapper.dtoToComment(comment, user, item));

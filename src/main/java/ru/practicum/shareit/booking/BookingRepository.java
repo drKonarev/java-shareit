@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +28,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     @Query(value = "select * from bookings as b where b.item_id = ?1" +
             " and b.booker_id=?2 and status like 'APPROVED' " +
-            "and end_time<now()", nativeQuery = true)
-    List<Booking> findPastBookingByBooker_IdAndItem_Id(Long itemId, Long bookerId);
+            "and end_time<?3", nativeQuery = true)
+    List<Booking> findPastBookingByBooker_IdAndItem_Id(Long itemId, Long bookerId, LocalDateTime now);
 
     Page<Booking> findAllByBooker_IdOrderByStartDesc(Long bookerId, Pageable pageable);
 

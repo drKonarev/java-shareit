@@ -114,9 +114,9 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findPastBookingByBooker_IdAndItem_Id() {
+    void findPastBookingByBooker_IdAndItem_IdTest() {
         List<Booking> actualList = bookingRepository
-                .findPastBookingByBooker_IdAndItem_Id(2L, 1L);
+                .findPastBookingByBooker_IdAndItem_Id(2L, 1L, LocalDateTime.now());
 
         assertFalse(actualList.isEmpty());
         assertEquals(1, actualList.size());
@@ -124,7 +124,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findAllByBooker_IdOrderByStartDesc() {
+    void findAllByBooker_IdOrderByStartDescTest() {
         List<Booking> actualList = bookingRepository.findAllByBooker_IdOrderByStartDesc(1L, Pageable.unpaged()).toList();
 
         assertFalse(actualList.isEmpty());
@@ -134,7 +134,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findBookingByItem_Owner_Id() {
+    void findBookingByItem_Owner_IdTest() {
         List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(2L, PageRequest.of(0,10)).toList();
 
         assertFalse(actualList.isEmpty());
