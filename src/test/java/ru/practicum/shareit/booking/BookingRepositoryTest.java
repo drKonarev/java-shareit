@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.DirtiesContext;
 import ru.practicum.shareit.item.model.Item;
@@ -135,7 +134,7 @@ class BookingRepositoryTest {
 
     @Test
     void findBookingByItem_Owner_IdTest() {
-        List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(2L, PageRequest.of(1,10)).getContent();
+        List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(2L, Pageable.unpaged()).getContent();
 
         assertFalse(actualList.isEmpty());
         assertEquals(2, actualList.size());
