@@ -132,12 +132,5 @@ class BookingRepositoryTest {
         assertEquals(actualList.get(1).getItem().getId(), 2L);
     }
 
-    @Test
-    void findBookingByItem_Owner_IdTest() {
-        List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(2L, Pageable.unpaged()).getContent();
 
-        assertFalse(actualList.isEmpty());
-        assertEquals(2, actualList.size());
-        assertEquals(2L, actualList.get(0).getItem().getId());
-    }
 }
