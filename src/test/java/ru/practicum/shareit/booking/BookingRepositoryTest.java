@@ -38,10 +38,8 @@ class BookingRepositoryTest {
 
         user1.setName("testName1");
         user1.setEmail("test1@mail.com");
-        user1.setId(1L);
         user2.setName("testName2");
         user2.setEmail("test25@mail.ru");
-        user2.setId(2L);
 
 
         Item item1 = new Item();
