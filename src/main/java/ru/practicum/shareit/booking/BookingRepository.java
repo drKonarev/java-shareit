@@ -12,15 +12,15 @@ import java.util.Optional;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    @Query(value = "select * from bookings as b inner join items as i on b.item_id=i.id   " +
-            "  and b.item_id = ?1 and b.status like 'APPROVED' and start_time < now() " +
+    @Query(value = "select * from bookings  as b , items as i   " +
+            " where b.item_id=i.id and b.item_id = ?1 and b.status like 'APPROVED' and start_time < now() " +
             " order by  b.end_time DESC " +
             "limit 1", nativeQuery = true)
     Optional<Booking> getLastBookingByItemId(long itemId);
 
-    @Query(value = "select * from bookings as b inner join items as i on b.item_id=i.id   " +
-            " where b.item_id = ?1 and " +
-            "b.status like 'APPROVED' and end_time>now()  and start_time>= now()" +
+    @Query(value = "select * from bookings  as b , items as i   " +
+            " where b.item_id=i.id and b.item_id = ?1 and " +
+            "b.status like 'APPROVED'   and start_time>= now()" +
             "order by  b.start_time ASC " +
             "limit 1", nativeQuery = true)
     Optional<Booking> getNextBookingByItemId(long itemId);
@@ -33,9 +33,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     Page<Booking> findAllByBooker_IdOrderByStartDesc(Long bookerId, Pageable pageable);
 
 
-    @Query(value = "select * from bookings  as b inner join items as i on b.item_id=i.id " +
-            "inner join users as u on i.user_id=u.id" +
-            " where u.id = ?1 " +
+    @Query(value = "select * from bookings  as b , items as i , users as u  " +
+            " where b.item_id=i.id and i.user_id=u.id and u.id = ?1 " +
             "order by  b.start_time DESC ", nativeQuery = true,
             countQuery = "select count(*) from bookings  as b , items as i , users as u  " +
                     " where b.item_id=i.id and i.user_id=u.id and u.id = ?1")

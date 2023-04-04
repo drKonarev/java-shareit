@@ -93,7 +93,7 @@ class BookingRepositoryTest {
 
     @Test
     void getLastBookingByItemIdTest() {
-
+        System.out.println(bookingRepository.findAll());
         Optional<Booking> actual = bookingRepository.getLastBookingByItemId(2);
 
         assertTrue(actual.isPresent());
@@ -103,9 +103,9 @@ class BookingRepositoryTest {
 
     @Test
     void getNextBookingByItemIdTest() {
-
+        System.out.println(bookingRepository.findAll());
         Optional<Booking> actual = bookingRepository.getNextBookingByItemId(2);
-
+        System.out.println(actual);
         assertTrue(actual.isPresent());
         assertEquals(3L, actual.get().getId());
         assertEquals(BookingStatus.APPROVED, actual.get().getStatus());
@@ -114,6 +114,7 @@ class BookingRepositoryTest {
 
     @Test
     void findPastBookingByBooker_IdAndItem_IdTest() {
+        System.out.println(bookingRepository.findAll());
         List<Booking> actualList = bookingRepository
                 .findPastBookingByBooker_IdAndItem_Id(2L, 1L);
 
@@ -124,6 +125,7 @@ class BookingRepositoryTest {
 
     @Test
     void findAllByBooker_IdOrderByStartDescTest() {
+        System.out.println(bookingRepository.findAll());
         List<Booking> actualList = bookingRepository.findAllByBooker_IdOrderByStartDesc(1L, Pageable.unpaged()).getContent();
 
         assertFalse(actualList.isEmpty());
@@ -134,6 +136,7 @@ class BookingRepositoryTest {
 
     @Test
     void findBookingByItem_Owner_IdTest() {
+        System.out.println(bookingRepository.findAll());
         List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(2L, Pageable.unpaged()).getContent();
 
         assertFalse(actualList.isEmpty());
