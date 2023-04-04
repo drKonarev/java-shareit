@@ -2,12 +2,15 @@ package ru.practicum.shareit.booking;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.DirtiesContext;
+import ru.practicum.shareit.item.dao.ItemRepository;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
@@ -18,13 +21,13 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@AutoConfigureTestDatabase
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class BookingRepositoryTest {
 
     @Autowired
     private BookingRepository bookingRepository;
-
+    private static final Logger log = LoggerFactory.getLogger(BookingRepositoryTest.class);
     @Autowired
     private TestEntityManager em;
 
@@ -36,8 +39,10 @@ class BookingRepositoryTest {
 
         user1.setName("testName1");
         user1.setEmail("test1@mail.com");
+        user1.setId(1L);
         user2.setName("testName2");
         user2.setEmail("test25@mail.ru");
+        user2.setId(2L);
 
 
         Item item1 = new Item();
