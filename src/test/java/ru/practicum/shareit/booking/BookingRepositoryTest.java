@@ -1,9 +1,6 @@
 package ru.practicum.shareit.booking;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -26,11 +23,10 @@ class BookingRepositoryTest {
 
     @Autowired
     private BookingRepository bookingRepository;
-    private static final Logger log = LoggerFactory.getLogger(BookingRepositoryTest.class);
     @Autowired
     private TestEntityManager em;
 
-    @BeforeEach
+
     public void setUp() {
 
         User user1 = new User();
@@ -95,6 +91,7 @@ class BookingRepositoryTest {
 
     @Test
     void getLastBookingByItemIdTest() {
+        setUp();
         System.out.println(bookingRepository.findAll());
         Optional<Booking> actual = bookingRepository.getLastBookingByItemId(2);
 
@@ -105,6 +102,7 @@ class BookingRepositoryTest {
 
     @Test
     void getNextBookingByItemIdTest() {
+        setUp();
         System.out.println(bookingRepository.findAll());
         Optional<Booking> actual = bookingRepository.getNextBookingByItemId(2);
         System.out.println(actual);
@@ -116,6 +114,7 @@ class BookingRepositoryTest {
 
     @Test
     void findPastBookingByBooker_IdAndItem_IdTest() {
+        setUp();
         System.out.println(bookingRepository.findAll());
         List<Booking> actualList = bookingRepository
                 .findPastBookingByBooker_IdAndItem_Id(2L, 1L);
@@ -127,6 +126,7 @@ class BookingRepositoryTest {
 
     @Test
     void findAllByBooker_IdOrderByStartDescTest() {
+        setUp();
         System.out.println(bookingRepository.findAll());
         List<Booking> actualList = bookingRepository.findAllByBooker_IdOrderByStartDesc(1L, Pageable.unpaged()).getContent();
 
@@ -138,6 +138,7 @@ class BookingRepositoryTest {
 
     @Test
     void findBookingByItem_Owner_IdTest() {
+        setUp();
         System.out.println(bookingRepository.findAll());
         List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(2L, Pageable.unpaged()).getContent();
 
