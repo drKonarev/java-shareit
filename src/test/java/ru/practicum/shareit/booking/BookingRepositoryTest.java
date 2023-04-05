@@ -7,7 +7,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.DirtiesContext;
+import ru.practicum.shareit.item.dao.ItemRepository;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
@@ -23,6 +25,10 @@ class BookingRepositoryTest {
 
     @Autowired
     private BookingRepository bookingRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ItemRepository itemRepository;
     @Autowired
     private TestEntityManager em;
 
@@ -121,11 +127,11 @@ class BookingRepositoryTest {
         em.persist(booking2);
         em.persist(booking3);
         System.out.println(bookingRepository.findAll());
-        List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(2L, Pageable.unpaged()).toList();
+        List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(user2.getId(), Pageable.unpaged()).toList();
 
         assertFalse(actualList.isEmpty());
         assertEquals(2, actualList.size());
-        assertEquals(2L, actualList.get(0).getItem().getId());
+        assertEquals(item2.getId(), actualList.get(0).getItem().getId());
     }
 
 
