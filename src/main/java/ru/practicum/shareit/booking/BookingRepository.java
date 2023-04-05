@@ -38,5 +38,5 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "order by  b.start_time DESC ", nativeQuery = true,
             countQuery = "select count(*) from bookings  as b , items as i , users as u  " +
                     " where b.item_id=i.id and i.user_id=u.id and u.id = ?1")
-    Page<Booking> findBookingByItem_Owner_Id(Long ownerId, Pageable pageable);
+    Page<Booking> findBookingByItemOwner_Id(Long ownerId, Pageable pageable);
 }

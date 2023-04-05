@@ -116,7 +116,7 @@ public class BookingServiceImpl implements BookingService {
         userRepository.findById(ownerId).orElseThrow(() -> {
             throw new UserNotFoundException("User not found");
         });
-        List<Booking> allBookingsByOwnerId = bookingRepository.findBookingByItem_Owner_Id(ownerId, PageRequest.of(from, size))
+        List<Booking> allBookingsByOwnerId = bookingRepository.findBookingByItemOwner_Id(ownerId, PageRequest.of(from, size))
                 .stream()
                 .sorted(Comparator.comparing(Booking::getStart).reversed())
                 .collect(Collectors.toList());

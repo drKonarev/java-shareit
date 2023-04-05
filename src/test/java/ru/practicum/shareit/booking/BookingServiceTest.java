@@ -387,7 +387,7 @@ class BookingServiceTest {
     @Test
     void getAllBookingByOwnerId_whenBookingsIsEmpty_thenReturnedEmptyList() {
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
-        when(bookingRepository.findBookingByItem_Owner_Id(1L, PageRequest.of(0, 10)))
+        when(bookingRepository.findBookingByItemOwner_Id(1L, PageRequest.of(0, 10)))
                 .thenReturn(Page.empty());
 
         List<BookingResponseDto> actual = bookingService.getAllBookingByOwnerId(1L, "ALL", 0, 10);
@@ -399,7 +399,7 @@ class BookingServiceTest {
     void getAllBookingByOwnerId_whenStateIsALL() {
         booking.setStatus(BookingStatus.APPROVED);
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
-        when(bookingRepository.findBookingByItem_Owner_Id(1L, PageRequest.of(0, 10)))
+        when(bookingRepository.findBookingByItemOwner_Id(1L, PageRequest.of(0, 10)))
                 .thenReturn(new PageImpl<Booking>(Collections.singletonList(booking)));
         when(mapper.bookingToResponse(booking)).thenReturn(bookingResponseDto);
 
@@ -413,7 +413,7 @@ class BookingServiceTest {
         booking.setStatus(BookingStatus.APPROVED);
         booking.setStart(LocalDateTime.now().minusHours(1));
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
-        when(bookingRepository.findBookingByItem_Owner_Id(1L, PageRequest.of(0, 10)))
+        when(bookingRepository.findBookingByItemOwner_Id(1L, PageRequest.of(0, 10)))
                 .thenReturn(new PageImpl<Booking>(Collections.singletonList(booking)));
         when(mapper.bookingToResponse(booking)).thenReturn(bookingResponseDto);
 
@@ -428,7 +428,7 @@ class BookingServiceTest {
         booking.setEnd(LocalDateTime.now().minusHours(1));
         booking.setStatus(BookingStatus.APPROVED);
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
-        when(bookingRepository.findBookingByItem_Owner_Id(1L, PageRequest.of(0, 10)))
+        when(bookingRepository.findBookingByItemOwner_Id(1L, PageRequest.of(0, 10)))
                 .thenReturn(new PageImpl<Booking>(Collections.singletonList(booking)));
         when(mapper.bookingToResponse(booking)).thenReturn(bookingResponseDto);
 
@@ -443,7 +443,7 @@ class BookingServiceTest {
         booking.setStart(LocalDateTime.now().plusHours(2));
         booking.setStatus(BookingStatus.APPROVED);
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
-        when(bookingRepository.findBookingByItem_Owner_Id(1L, PageRequest.of(0, 10)))
+        when(bookingRepository.findBookingByItemOwner_Id(1L, PageRequest.of(0, 10)))
                 .thenReturn(new PageImpl<Booking>(Collections.singletonList(booking)));
         when(mapper.bookingToResponse(booking)).thenReturn(bookingResponseDto);
         List<BookingResponseDto> actual = bookingService.getAllBookingByOwnerId(1L, "FUTURE", 0, 10);
@@ -455,7 +455,7 @@ class BookingServiceTest {
     void getAllBookingByOwnerId_whenStateIsREJECTED() {
         booking.setStatus(BookingStatus.REJECTED);
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
-        when(bookingRepository.findBookingByItem_Owner_Id(1L, PageRequest.of(0, 10)))
+        when(bookingRepository.findBookingByItemOwner_Id(1L, PageRequest.of(0, 10)))
                 .thenReturn(new PageImpl<Booking>(Collections.singletonList(booking)));
         when(mapper.bookingToResponse(booking)).thenReturn(bookingResponseDto);
         List<BookingResponseDto> actual = bookingService.getAllBookingByOwnerId(1L, "REJECTED", 0, 10);
@@ -467,7 +467,7 @@ class BookingServiceTest {
     void getAllBookingByOwnerId_whenStateIsWAITING() {
         booking.setStatus(BookingStatus.WAITING);
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
-        when(bookingRepository.findBookingByItem_Owner_Id(1L, PageRequest.of(0, 10)))
+        when(bookingRepository.findBookingByItemOwner_Id(1L, PageRequest.of(0, 10)))
                 .thenReturn(new PageImpl<Booking>(Collections.singletonList(booking)));
         when(mapper.bookingToResponse(booking)).thenReturn(bookingResponseDto);
         List<BookingResponseDto> actual = bookingService.getAllBookingByOwnerId(1L, "WAITING", 0, 10);
@@ -479,7 +479,7 @@ class BookingServiceTest {
     void getAllBookingByOwnerId_whenStateIsIllegal_thenThrowIllegalArgumentException() {
         booking.setStatus(null);
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
-        when(bookingRepository.findBookingByItem_Owner_Id(1L, PageRequest.of(0, 10)))
+        when(bookingRepository.findBookingByItemOwner_Id(1L, PageRequest.of(0, 10)))
                 .thenReturn(new PageImpl<Booking>(Collections.singletonList(booking)));
         assertThrows(IllegalArgumentException.class,
                 () -> bookingService.getAllBookingByOwnerId(1L, "UKNOWN", 0, 10));

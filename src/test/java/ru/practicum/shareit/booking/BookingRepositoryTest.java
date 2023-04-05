@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class BookingRepositoryTest {
 
     @Autowired
@@ -142,7 +142,7 @@ class BookingRepositoryTest {
     @Test
     void findBookingByItem_Owner_IdTest() {
         System.out.println("\n" + bookingRepository.findAll() + "\n");
-        List<Booking> actualList = bookingRepository.findBookingByItem_Owner_Id(2L, Pageable.unpaged()).toList();
+        List<Booking> actualList = bookingRepository.findBookingByItemOwner_Id(2L, Pageable.unpaged()).toList();
         System.out.println("\n" + "!!!!!!" + "\n" + actualList);
         assertFalse(actualList.isEmpty());
         assertEquals(2, actualList.size());
