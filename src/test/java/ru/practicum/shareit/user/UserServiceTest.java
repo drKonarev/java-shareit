@@ -118,4 +118,10 @@ class UserServiceTest {
         userService.delete(1L);
         verify(userRepository).deleteById(1L);
     }
+
+    @Test
+    void deleteNotExistUser_then() {
+        when(userRepository.existsById(anyLong())).thenReturn(false);
+        assertThrows(UserNotFoundException.class, () -> userService.delete(anyLong()));
+    }
 }

@@ -143,7 +143,6 @@ class BookingControllerTest {
                 .andExpect(jsonPath("$[0].status").value("WAITING"))
                 .andExpect(jsonPath("$[0].booker.id").value("1"))
                 .andExpect(jsonPath("$[0].item.id").value(1L));
-// работает вложение
 
         verify(bookingService).getAllBookingByUserId(anyLong(), eq("ALL"), anyInt(), anyInt());
     }
@@ -163,7 +162,6 @@ class BookingControllerTest {
                 .andExpect(jsonPath("$[0].status").value("WAITING"))
                 .andExpect(jsonPath("$[0].booker.id").value("1"))
                 .andExpect(jsonPath("$[0].item.id").value(1L));
-// работает вложение
 
         verify(bookingService).getAllBookingByOwnerId(eq(1L), eq("ALL"), anyInt(), anyInt());
     }

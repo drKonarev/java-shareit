@@ -41,4 +41,6 @@ class UserRepositoryTest {
         assertEquals("test1@mail.ru", actualUser.get().getEmail());
 
     }
+
+
 }
