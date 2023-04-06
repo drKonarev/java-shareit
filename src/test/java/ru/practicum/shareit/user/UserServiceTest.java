@@ -115,8 +115,9 @@ class UserServiceTest {
 
     @Test
     void delete_whenRepositoryIsNotEmpty_thenRepositorySizeIsReduce() {
-        userService.delete(1L);
-        verify(userRepository).deleteById(1L);
+        when(userRepository.existsById(anyLong())).thenReturn(true);
+        userService.delete(anyLong());
+        verify(userRepository).deleteById(anyLong());
     }
 
     @Test
