@@ -6,9 +6,12 @@ import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.markers.Create;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
+@Validated
 @RequestMapping(path = "/bookings")
 public class BookingController {
     private final BookingService bookingService;
@@ -39,15 +42,18 @@ public class BookingController {
 
     @GetMapping
     public List<BookingResponseDto> getAllBookingByUserId(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                                          @RequestParam(defaultValue = "ALL", required = false, name = "state") String state) {
-        return bookingService.getAllBookingByUserId(userId, state);
-
+                                                          @RequestParam(defaultValue = "ALL", required = false, name = "state") String state,
+                                                          @RequestParam(name = "from", required = false, defaultValue = "0") @Min(0) Integer from,
+                                                          @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) @Max(100) Integer size) {
+        return bookingService.getAllBookingByUserId(userId, state, from, size);
     }
 
     @GetMapping("/owner")
     public List<BookingResponseDto> getAllBookingByOwnerId(@RequestHeader("X-Sharer-User-Id") Long ownerId,
-                                                           @RequestParam(defaultValue = "ALL", required = false, name = "state") String state) {
-        return bookingService.getAllBookingByOwnerId(ownerId, state);
+                                                           @RequestParam(defaultValue = "ALL", required = false, name = "state") String state,
+                                                           @RequestParam(name = "from", required = false, defaultValue = "0") @Min(0) Integer from,
+                                                           @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) @Max(100) Integer size) {
+        return bookingService.getAllBookingByOwnerId(ownerId, state, from, size);
     }
 
 

@@ -2,6 +2,7 @@ package ru.practicum.shareit.booking;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingResponseDto;
@@ -99,32 +100,28 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingResponseDto> getAllBookingByUserId(Long userId, String state) {
-        userRepository.findById(userId).orElseThrow(() -> {
+    public List<BookingResponseDto> getAllBookingByUserId(Long bookerId, String state, Integer from, Integer size) {
+        userRepository.findById(bookerId).orElseThrow(() -> {
             throw new UserNotFoundException("User not found");
         });
-        List<Booking> allBookingsByUserId = bookingRepository.findAll()
-                .stream()
-                .filter(booking -> booking.getBooker().getId().equals(userId))
-                .sorted(Comparator.comparing(Booking::getStart).reversed())
-                .collect(Collectors.toList());
+
+        List<Booking> allBookingsByUserId = bookingRepository.findAllByBooker_IdOrderByStartDesc(bookerId, PageRequest.of(from / size, size))
+                .toList();
 
         return getFilteredList(allBookingsByUserId, state);
     }
 
     @Override
-    public List<BookingResponseDto> getAllBookingByOwnerId(Long ownerId, String state) {
+    public List<BookingResponseDto> getAllBookingByOwnerId(Long ownerId, String state, Integer from, Integer size) {
         userRepository.findById(ownerId).orElseThrow(() -> {
             throw new UserNotFoundException("User not found");
         });
-        List<Booking> allBookingsByOwnerId = bookingRepository.findAll()
+        List<Booking> allBookingsByOwnerId = bookingRepository.findBookingByItemOwner_Id(ownerId, PageRequest.of(from, size))
                 .stream()
-                .filter(booking -> booking.getItem().getOwner().getId().equals(ownerId))
                 .sorted(Comparator.comparing(Booking::getStart).reversed())
                 .collect(Collectors.toList());
 
         if (allBookingsByOwnerId.isEmpty()) return new ArrayList<>();
-
         return getFilteredList(allBookingsByOwnerId, state);
     }
 
@@ -132,10 +129,9 @@ public class BookingServiceImpl implements BookingService {
     private void validateAccessToProve(Long ownerId, Long userId) {
         if (!Objects.equals(userId, ownerId))
             throw new AccessOrAvailableException("Недостаточно прав для доступа");
-
     }
 
-    private void validateAccessToPublic(Long ownerId, Long userId) { // подумать, как сделать лучше, сейчас - не работает
+    private void validateAccessToPublic(Long ownerId, Long userId) {
         if (Objects.equals(ownerId, userId))
             throw new AccessOrAvailableException("Нельзя забронировать своою вещь");
     }
