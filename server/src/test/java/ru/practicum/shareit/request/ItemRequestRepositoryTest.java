@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED)
+
 class ItemRequestRepositoryTest {
 
     @Autowired

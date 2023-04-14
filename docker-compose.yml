@@ -2,7 +2,6 @@ version: '3.8'
 services:
   gateway:
     build: ./gateway
-    image: amazoncorretto:11-alpine-jdk
     container_name: gateway
     ports:
       - "8080:8080"
@@ -13,7 +12,6 @@ services:
 
   server:
     build: ./server
-    image: amazoncorretto:11-alpine-jdk
     container_name: server
     ports:
       - "9090:9090"
@@ -21,15 +19,15 @@ services:
       - db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shareit
-      - POSTGRES_USER=kitty
-      - POSTGRES_PASSWORD=purrrrrr
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=iamroot
 
   db:
-    image: postgres:13.7-alpine
+    image: postgres:15.1-alpine
     container_name: database
     ports:
       - "6541:5432"
     environment:
       - POSTGRES_DB=shareit
-        - POSTGRES_USER=kitty
-        - POSTGRES_PASSWORD=purrrrrr
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=iamroot
