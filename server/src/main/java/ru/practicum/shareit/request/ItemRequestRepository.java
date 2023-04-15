@@ -13,8 +13,13 @@ public interface ItemRequestRepository extends JpaRepository<ItemRequest, Long> 
     List<ItemRequest> findAllByOwnerId(Long ownerId);
 
     @Query(nativeQuery = true,
+            value = "select * from requests as ir where ir.requestor_id !=?1",
+            countQuery = "select count(*) from requests as ir where ir.requestor_id !=?1")
+    Page<ItemRequest> findAllExtendUserId(Long userId, Pageable pageable);
+}
+/*@Query(nativeQuery = true,
             value = "select * from item_requests as ir where ir.owner_id !=?1",
             countQuery = "select count(*) from item_requests as ir where ir.owner_id !=?1")
     Page<ItemRequest> findAllExtendUserId(Long userId, Pageable pageable);
-}
+}*/
 
