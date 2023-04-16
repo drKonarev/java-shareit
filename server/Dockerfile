@@ -1,4 +1,4 @@
-FROM amazoncorretto:11-alpine-jdk
-COPY target/*.jar java-shareit-server.jar
-#RUN bin/bash -c 'ln -snf /usr/share/zoneinfo/Europe/Moscow /etc/localtime'
-ENTRYPOINT ["java","-jar","/java-shareit-server.jar"]
+FROM amazoncorretto:11
+#ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9091
+COPY target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
